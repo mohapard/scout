@@ -47,10 +47,15 @@ def save_player_data(player_data):
         player_data['last_modified'] = player_data['last_modified'].astype(str)
     s3.Object(BUCKET_NAME, CSV_FILE_NAME).put(Body=player_data.to_csv(index=False))
 
+
 def calculate_age(birth_date):
-    birth_date = pd.to_datetime(birth_date)
+    birth_date = pd.to_datetime(birth_date, errors='coerce')
+    if pd.isnull(birth_date):
+        return None
     today = pd.to_datetime('today')
-    return relativedelta(today, birth_date).years
+    age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
+    return age
+
 
 player_data = load_player_data()
 if len(player_data) > 0 and 'date_of_birth' in player_data.columns:
