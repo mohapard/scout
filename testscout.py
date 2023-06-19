@@ -95,8 +95,8 @@ if page == "Player Statistics":
 
     st.subheader('Player List')
     if filtered_data is not None and not filtered_data.empty:
-        player_to_view = st.selectbox('Select player to view', filtered_data['last_name'])
-        indices = filtered_data[filtered_data['last_name'] == player_to_view].index
+        player_to_view = st.selectbox('Select player to view', filtered_data['name'])
+        indices = filtered_data[filtered_data['name'] == player_to_view].index
         st.table(filtered_data.loc[indices].T)
     else:
         st.write("No player data available.")
@@ -138,8 +138,8 @@ elif page == "Data Summarization":
         st.subheader('Top Performers for Each Skill')
         for skill in skills:
             if skill in filtered_data.columns:
-                top_performer = filtered_data[['first_name', 'last_name', skill]].sort_values(by=[skill], ascending=False).head(1)
-                st.write(f'Top performer for {skill}: {top_performer["first_name"].values[0]} {top_performer["last_name"].values[0]} with score {top_performer[skill].values[0]}')
+                top_performer = filtered_data[['name', skill]].sort_values(by=[skill], ascending=False).head(1)
+                st.write(f'Top performer for {skill}: {top_performer["name"].values[0]} with score {top_performer[skill].values[0]}')
 
     else:
         st.write("No player data available.")
@@ -154,8 +154,7 @@ elif page == "Add Player":
 
     # Personal Information
     st.subheader('Personal Information')
-    player["first_name"] = st.text_input("First Name")
-    player["last_name"] = st.text_input("Last Name")
+    player["name"] = st.text_input("Full Name")
     player["gender"] = st.selectbox("Gender", ['Male', 'Female'])
     player["date_of_birth"] = st.date_input("Date of Birth",min_value= datetime.date(1990, 1, 1))
     player["nationality"] = st.text_input("Nationality", value="Egypt")
