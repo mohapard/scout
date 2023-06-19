@@ -8,7 +8,7 @@ import os
 
 AWS_ACCESS_KEY_ID = st.secrets['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = st.secrets['AWS_SECRET_ACCESS_KEY']
-
+st.write(AWS_ACCESS_KEY_ID)
 # Define S3 bucket details
 BUCKET_NAME = "tacticmedia"
 CSV_FILE_NAME = "Scouting/players.csv"
