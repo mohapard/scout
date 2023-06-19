@@ -190,7 +190,8 @@ elif page == "Add Player":
     
     if st.button('Add Player'):
         player_df = pd.DataFrame(player)
-        player_data = player_data.append(player_df, ignore_index=True)
+        #player_data = player_data.append(player_df, ignore_index=True)
+        player_data = pd.concat([player_data, player_df], ignore_index=True)
         player_data.to_csv("players.csv")
         save_player_data(player_data)
         st.success("Player successfully added!")
