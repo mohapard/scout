@@ -33,6 +33,7 @@ def load_player_data():
             player_data['record_date'] = pd.to_datetime(player_data['record_date'])
         if 'last_modified' in player_data.columns:
             player_data['last_modified'] = pd.to_datetime(player_data['last_modified'])
+        st.write(player_data)
         return player_data
     except Exception as e:
         st.write(e)
