@@ -190,11 +190,14 @@ elif page == "Add Player":
 
     
     if st.button('Add Player'):
-        player_df = pd.DataFrame(player)
-        st.write(player)
-        #player_data = player_data.append(player_df, ignore_index=True)
-        player_data = pd.concat([player_data, player_df], ignore_index=True)
-        #player_data.to_csv("players.csv")
+        # Create an empty DataFrame with headers
+
+        # Convert the player dictionary to a DataFrame
+        player_df = pd.DataFrame([player])
+        st.write(player_df)
+        # Append the player DataFrame to the player_data DataFrame
+        player_data = player_data.append(player_df, ignore_index=True)
         st.write(player_data)
+        
         save_player_data(player_data)
         st.success("Player successfully added!")
