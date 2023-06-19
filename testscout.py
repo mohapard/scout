@@ -36,6 +36,7 @@ def load_player_data():
         return player_data
     except Exception as e:
         st.write(e)
+        st.write(player_data)
         return pd.DataFrame()
 
 def save_player_data(player_data):
