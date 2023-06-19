@@ -156,7 +156,7 @@ elif page == "Add Player":
     st.subheader('Personal Information')
     player["name"] = st.text_input("Full Name")
     player["gender"] = st.selectbox("Gender", ['Male', 'Female'])
-    player["date_of_birth"] = st.date_input("Date of Birth",min_value= datetime.date(1990, 1, 1)).strftime("%d/%m/%Y")
+    player["date_of_birth"] = pd.to_datetime(st.date_input("Date of Birth", min_value= datetime.date(1990, 1, 1)))
     player["nationality"] = st.text_input("Nationality", value="Egypt")
     player["city_area"] = st.text_input("City/Area","Cairo")
     player["current_club"] = st.text_input("Current Club")
