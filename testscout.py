@@ -6,8 +6,8 @@ from dateutil.relativedelta import relativedelta
 import altair as alt
 import os
 
-AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_ACCESS_KEY_ID = st.secrets['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = st.secrets['AWS_SECRET_ACCESS_KEY']
 
 # Define S3 bucket details
 BUCKET_NAME = "tacticmedia"
