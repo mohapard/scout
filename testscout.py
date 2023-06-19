@@ -8,7 +8,6 @@ import os
 
 AWS_ACCESS_KEY_ID = st.secrets['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = st.secrets['AWS_SECRET_ACCESS_KEY']
-st.write(AWS_ACCESS_KEY_ID)
 # Define S3 bucket details
 BUCKET_NAME = "tacticmedia"
 CSV_FILE_NAME = "Scouting/players.csv"
@@ -36,7 +35,6 @@ def load_player_data():
         return player_data
     except Exception as e:
         st.write(e)
-        st.write(player_data)
         return pd.DataFrame()
 
 
@@ -193,10 +191,8 @@ elif page == "Add Player":
 
         # Convert the player dictionary to a DataFrame
         player_df = pd.DataFrame([player])
-        st.write(player_df)
         # Append the player DataFrame to the player_data DataFrame
         player_data = pd.concat([player_data, player_df], ignore_index=True)
-        st.write(player_data)
         
         save_player_data(player_data)
         st.success("Player successfully added!")
