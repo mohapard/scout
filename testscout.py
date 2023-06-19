@@ -47,6 +47,7 @@ def save_player_data(player_data):
         player_data['record_date'] = player_data['record_date'].astype(str)
     if 'last_modified' in player_data.columns:
         player_data['last_modified'] = player_data['last_modified'].astype(str)
+    
     s3.Object(BUCKET_NAME, CSV_FILE_NAME).put(Body=player_data.to_csv(index=False))
 
 
@@ -192,6 +193,7 @@ elif page == "Add Player":
         player_df = pd.DataFrame(player)
         #player_data = player_data.append(player_df, ignore_index=True)
         player_data = pd.concat([player_data, player_df], ignore_index=True)
-        player_data.to_csv("players.csv")
+        #player_data.to_csv("players.csv")
+        st.write(player_data)
         save_player_data(player_data)
         st.success("Player successfully added!")
