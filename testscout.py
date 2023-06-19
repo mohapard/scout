@@ -27,7 +27,8 @@ def load_player_data():
         obj = s3.Object(BUCKET_NAME, CSV_FILE_NAME)
         player_data = pd.read_csv(obj.get()["Body"], dtype=str)
         if 'date_of_birth' in player_data.columns:
-            player_data['date_of_birth'] = pd.to_datetime(player_data['date_of_birth'])
+            #player_data['date_of_birth'] = pd.to_datetime(player_data['date_of_birth'])
+            player_data['date_of_birth'] =pd.to_datetime(date_str, format="%d/%m/%Y %H:%M", errors='coerce').dt.date
         if 'record_date' in player_data.columns:
             player_data['record_date'] = pd.to_datetime(player_data['record_date'])
         if 'last_modified' in player_data.columns:
