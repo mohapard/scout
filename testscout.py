@@ -64,11 +64,9 @@ with st.sidebar.container():
     selected_positions = st.multiselect("Position", options=positions) if 'primary_position' in player_data.columns else []
     selected_genders = st.multiselect("Gender", options=['Male', 'Female']) if 'gender' in player_data.columns else []
     selected_cities = st.multiselect("City/Area", options=player_data['city_area'].unique().tolist()) if 'city_area' in player_data.columns else []
-    if player_data['age'].min() == player_data['age'].max():
-        selected_age = st.slider("Age", min_value=9, max_value=50, value=(player_data['age'].min(), player_data['age'].max())) if 'age' in player_data.columns else []
-    else:
-        selected_age = st.slider("Age", min_value=player_data['age'].min(), max_value=player_data['age'].max(), value=(player_data['age'].min(), player_data['age'].max())) if 'age' in player_data.columns else []
-   
+    
+    selected_age = st.slider("Age", min_value=0, max_value=100, value=(player_data['age'].min(), player_data['age'].max())) if 'age' in player_data.columns else []
+      
 # Apply filters
 if len(player_data) > 0:
     filters = (player_data['primary_position'].isin(selected_positions) if selected_positions else True) & \
