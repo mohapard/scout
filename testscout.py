@@ -33,7 +33,8 @@ def load_player_data():
         if 'last_modified' in player_data.columns:
             player_data['last_modified'] = pd.to_datetime(player_data['last_modified'])
         return player_data
-    except:
+    except Exception as e:
+        st.write(e)
         return pd.DataFrame()
 
 def save_player_data(player_data):
