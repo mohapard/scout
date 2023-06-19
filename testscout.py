@@ -73,8 +73,11 @@ with st.sidebar.container():
     selected_cities = st.multiselect("City/Area", options=player_data['city_area'].unique().tolist()) if 'city_area' in player_data.columns else []
     
     #selected_age = st.slider("Age", min_value=0, max_value=100, value=(player_data['age'].min(), player_data['age'].max())) if 'age' in player_data.columns else []
-    selected_age = st.slider("Age", min_value=0, max_value=100, step=1, value=(int(player_data['age'].min()), int(player_data['age'].max()))) if 'age' in player_data.columns else []
- 
+    #selected_age = st.slider("Age", min_value=0, max_value=100, step=1, value=(int(player_data['age'].min()), int(player_data['age'].max()))) if 'age' in player_data.columns else []
+    min_age = int(player_data['age'].min()) if pd.notnull(player_data['age'].min()) else 0
+    max_age = int(player_data['age'].max()) if pd.notnull(player_data['age'].max()) else 100
+    selected_age = st.slider("Age", min_value=0, max_value=100, step=1, value=(min_age, max_age)) if 'age' in player_data.columns else []
+
 # Apply filters
 if len(player_data) > 0:
     filters = (player_data['primary_position'].isin(selected_positions) if selected_positions else True) & \
