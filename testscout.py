@@ -27,8 +27,7 @@ def load_player_data():
         obj = s3.Object(BUCKET_NAME, CSV_FILE_NAME)
         player_data = pd.read_csv(obj.get()["Body"], dtype=str)
         if 'date_of_birth' in player_data.columns:
-            #player_data['date_of_birth'] = pd.to_datetime(player_data['date_of_birth'])
-            player_data['date_of_birth'] =pd.to_datetime(player_data['date_of_birth'], format="%d/%m/%Y %H:%M", errors='coerce')
+            player_data['date_of_birth'] = pd.to_datetime(player_data['date_of_birth'], format="%d/%m/%Y", errors='coerce')
         if 'record_date' in player_data.columns:
             player_data['record_date'] = pd.to_datetime(player_data['record_date'])
         if 'last_modified' in player_data.columns:
@@ -40,16 +39,16 @@ def load_player_data():
         st.write(player_data)
         return pd.DataFrame()
 
+
 def save_player_data(player_data):
     if 'date_of_birth' in player_data.columns:
-        player_data['date_of_birth'] = player_data['date_of_birth'].astype(str)
+        player_data['date_of_birth'] = player_data['date_of_birth'].dt.strftime("%d/%m/%Y")
     if 'record_date' in player_data.columns:
         player_data['record_date'] = player_data['record_date'].astype(str)
     if 'last_modified' in player_data.columns:
         player_data['last_modified'] = player_data['last_modified'].astype(str)
     
     s3.Object(BUCKET_NAME, CSV_FILE_NAME).put(Body=player_data.to_csv(index=False))
-
 
 def calculate_age(birth_date):
     birth_date = pd.to_datetime(birth_date, errors='coerce')
@@ -157,7 +156,7 @@ elif page == "Add Player":
     st.subheader('Personal Information')
     player["name"] = st.text_input("Full Name")
     player["gender"] = st.selectbox("Gender", ['Male', 'Female'])
-    player["date_of_birth"] = st.date_input("Date of Birth",min_value= datetime.date(1990, 1, 1))
+    player["date_of_birth"] = st.date_input("Date of Birth",min_value= datetime.date(1990, 1, 1)).strftime("%d/%m/%Y")
     player["nationality"] = st.text_input("Nationality", value="Egypt")
     player["city_area"] = st.text_input("City/Area","Cairo")
     player["current_club"] = st.text_input("Current Club")
