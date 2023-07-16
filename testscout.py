@@ -135,45 +135,47 @@ else:
         filtered_data = None
 
     if page == "Add Player":
+
         st.title('Football Player Scouting - Add Player')
 
         # Define empty dictionary to hold form inputs
         player = {}
-
-        # Personal Information
-        st.subheader('Personal Information')
-        player["name"] = st.text_input("Full Name")
-        player["gender"] = st.selectbox("Gender", ['Male', 'Female'])
-        player["date_of_birth"] = pd.to_datetime(st.date_input("Date of Birth", min_value= datetime.date(1990, 1, 1)))
-        player["nationality"] = st.text_input("Nationality", value="Egypt")
-        player["city_area"] = st.text_input("City/Area","Cairo")
-        player["current_club"] = st.text_input("Current Club")
-        player["contact_number"] = st.text_input("Contact Number")
-        player["estimated_value"] = st.number_input("Estimated Value (in $EGP)", min_value=0)
-
-        st.subheader('Physical Attributes')
-        player["height"] = st.text_input("Height (cm)")
-        player["weight"] = st.text_input("Weight (kg)")
-        player["preferred_foot"] = st.selectbox("Preferred Foot", [ 'Right','Left', 'Both'])
-
-
-        # Positional Data
-        st.subheader('Positional Data')
-        player["primary_position"] = st.selectbox("Primary Position", positions)
-        player["secondary_positions"] = st.multiselect("Secondary Positions", positions)
+        col1, col2, col3 = st.columns(3)
+        with st.expander("Personal Info"):
+            # Personal Information
+            st.subheader('Personal Information')
+            player["name"] = st.text_input("Full Name")
+            player["gender"] = st.selectbox("Gender", ['Male', 'Female'])
+            player["date_of_birth"] = pd.to_datetime(st.date_input("Date of Birth", min_value= datetime.date(1990, 1, 1)))
+            player["nationality"] = st.text_input("Nationality", value="Egypt")
+            player["city_area"] = st.text_input("City/Area","Cairo")
+            player["current_club"] = st.text_input("Current Club")
+            player["contact_number"] = st.text_input("Contact Number")
+            player["estimated_value"] = st.number_input("Estimated Value (in $EGP)", min_value=0)
+        with st.expander("Physical"):
+            st.subheader('Physical Attributes')
+            player["height"] = st.text_input("Height (cm)")
+            player["weight"] = st.text_input("Weight (kg)")
+            player["preferred_foot"] = st.selectbox("Preferred Foot", [ 'Right','Left', 'Both'])
+        with st.expander("Position") :  
+            # Positional Data
+            st.subheader('Positional Data')
+            player["primary_position"] = st.selectbox("Primary Position", positions)
+            player["secondary_positions"] = st.multiselect("Secondary Positions", positions)
         
-        # Skill Data
-        st.subheader('Skills Data')
-        for skill in skills:
-            player[skill] = st.slider(skill, min_value=0, max_value=10,value=0)
+        with st.expander("Skills Ratings"):
+            # Skill Data
+            st.subheader('Skills Data')
+            for skill in skills:
+                player[skill] = st.slider(skill, min_value=0, max_value=10,value=0)
 
-        st.subheader('Evaluation')
-        player["general_comments"] = st.text_input("General Comments")
-        player["strengths"] = st.text_input("Strengths")
-        player["weaknesses"] = st.text_input("Weaknesses")
-        player["injury"] = st.text_input("Injury History")
-        player["record_date"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") # Record Date
-        player["scouted_by"] = st.session_state['username']
+            st.subheader('Evaluation')
+            player["general_comments"] = st.text_input("General Comments")
+            player["strengths"] = st.text_input("Strengths")
+            player["weaknesses"] = st.text_input("Weaknesses")
+            player["injury"] = st.text_input("Injury History")
+            player["record_date"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") # Record Date
+            player["scouted_by"] = st.session_state['username']
 
 
         
