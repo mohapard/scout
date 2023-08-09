@@ -5,6 +5,7 @@ import boto3
 from dateutil.relativedelta import relativedelta
 import altair as alt
 import os
+from PIL import Image
 
 
 translations = {
@@ -59,10 +60,10 @@ translations = {
         "Password": "كلمة المرور",
         "Language": "اللغة",
         "Invalid credentials": "بيانات الاعتماد غير صالحة",
-        "Football Player Scouting - Add Player": "إضافة لاعب",
+        "Football Player Scouting - Add Player": "الكشافة لاعب الكرة - إضافة لاعب",
         "Personal Info": "معلومات شخصية",
         "Full Name": "الاسم الكامل",
-        "Gender": "نوع",
+        "Gender": "جنس",
         "Date of Birth": "تاريخ الولادة",
         "Nationality": "الجنسية",
         "City/Area": "المدينة / المنطقة",
@@ -119,7 +120,8 @@ CSV_FILE_NAME_USERS = "Scouting/credentials.csv"
 
 positions = ['ST', 'RW','LW','CAM','CM','CDM', 'LB', 'RB','CB','GK']
 skills = ['Speed', 'Agility', 'Stamina', 'Ball Control', 'Dribbling', 'Shot', 'Tackling', 'Goalkeeping Skills', 'Aerial Duels', 'Vision', 'Passing']
-
+lgo = Image.open("ra2.png")
+lgo = lgo.resize((150,150))
 # Authenticate with AWS S3
 
 s3 = boto3.resource("s3",
@@ -183,7 +185,11 @@ def calculate_age(birth_date):
 
 
 def login():
+    
     with st.form('login_form'):
+        left_co, cent_co,last_co = st.columns(3)
+        with cent_co:
+                st.image(lgo)
         credentials = load_user_data()
         username = st.text_input('Username')
         password = st.text_input('Password', type='password')
@@ -215,11 +221,13 @@ else:
         player_data['date_of_birth'] = pd.to_datetime(player_data['date_of_birth'])
         player_data['age'] = player_data['date_of_birth'].apply(calculate_age)
 
+    st.sidebar.image(lgo)
     pages = ["Add Player/أضف لاعب", "Player Statistics/إحصائيات اللاعب", "Data Summarization/تلخيص البيانات", "Full Table/الجدول الكامل"]
     page = st.sidebar.selectbox("Page", pages)
 
     # Add all the required filters
     with st.sidebar.container():
+        
         st.header("Filters")
         selected_positions = st.multiselect(get_string(st.session_state['language'],"Positions"), options=positions) if 'primary_position' in player_data.columns else []
         selected_genders = st.multiselect(get_string(st.session_state['language'],"Gender"), options=['Male', 'Female']) if 'gender' in player_data.columns else []
@@ -298,6 +306,9 @@ else:
             st.success("Player successfully added!")
         
 
+    
+    
+    
     elif page == "Data Summarization/تلخيص البيانات":
         st.title('Football Player Scouting - Data Summarization')
 
