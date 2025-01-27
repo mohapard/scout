@@ -204,7 +204,7 @@ def login():
         if credentials.get(username) == password:  # Replace with your actual authentication logic
             st.session_state['logged_in'] = True
             st.session_state['username'] = username
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error('Invalid credentials')
 
